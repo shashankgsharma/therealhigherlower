@@ -13,13 +13,12 @@ def read_file(file_name):
         winner_name = winner[0]
         winner_score = winner[1]
         date = winner[2]
-        time = winner[3]
-        return winner_name, winner_score, date, time
+        return winner_name, winner_score, date
 
 
-def write_file(file_name, winner_name, winner_score, date, time):
+def write_file(file_name, winner_name, winner_score, date):
     with open(file_name, 'w') as file:
-        file.write(f"{winner_name}, {winner_score}, {date}, {time}")
+        file.write(f"{winner_name}, {winner_score}, {date}")
 
 
 def greetme(player_name):
@@ -69,10 +68,8 @@ def play():
     while not game_end:
         system('clear')
         print(logo + "\n")
-        winner_name, winner_score, date, time = read_file('winner.txt')
-        print(
-            f"Highest score: {winner_name}: {winner_score} on {date} at {time}."
-        )
+        winner_name, winner_score, date = read_file('winner.txt')
+        print(f"Highest score: {winner_name}: {winner_score} on {date}.")
         print(f"Your current score: {score}.\n")
         print(print_player(player1, gender))
         print(vs)
@@ -102,8 +99,8 @@ def play():
         winner_score = score
         now = datetime.datetime.now()
         date = now.date()
-        time = now.strftime("%H:%M:%S")
-        write_file('winner.txt', winner_name, winner_score, date, time)
+        # time = now.strftime("%H:%M:%S")
+        write_file('winner.txt', winner_name, winner_score, date)
         print("Congratulations! This is a new high score!")
 
 
