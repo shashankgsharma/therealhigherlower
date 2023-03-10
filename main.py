@@ -4,6 +4,7 @@ from random import choice
 from game_data import male_data, female_data
 from art import logo, vs
 
+
 def random_player_selector(data):
     return choice(data)
 
@@ -54,11 +55,15 @@ def play():
             f"Type 'h' if you think {player2['name']}'s international runs is higher than {player1['name']}'s international runs, \nType 'l' if you think it's lower: \n"
         ).lower()
 
-        print(f"\nInternational runs:\n{player1['name']}: {player1['international_runs']} runs.\n{player2['name']}: {player2['international_runs']} runs.\n")
+        print(
+            f"\nInternational runs:\n{player1['name']}: {player1['international_runs']} runs.\n{player2['name']}: {player2['international_runs']} runs.\n"
+        )
         sleep(4)
         if user_guess == result:
             score += 1
             player1 = player2
+            player2 = random_player_selector(data)
+        elif result == 'pass':
             player2 = random_player_selector(data)
         else:
             game_end = True
