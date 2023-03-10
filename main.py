@@ -39,7 +39,7 @@ def compare(a, b):
     elif a < b:
         return "h"
     else:
-        return "pass"
+        return "equal"
 
 
 def play():
@@ -61,6 +61,8 @@ def play():
 
     player1 = random_player_selector(data)
     player2 = random_player_selector(data)
+    if player1 == player2:
+        player2 = random_player_selector(data)
 
     game_end = False
     score = 0
@@ -89,8 +91,9 @@ def play():
             score += 1
             player1 = player2
             player2 = random_player_selector(data)
-        elif result == 'pass':
-            player2 = random_player_selector(data)
+            if player1 == player2:
+                player2 = random_player_selector(data)
+
         else:
             game_end = True
     print(f"\nGame ended, final_score: {score}.\n")
