@@ -61,7 +61,7 @@ def play():
 
     player1 = random_player_selector(data)
     player2 = random_player_selector(data)
-    if player1 == player2:
+    while player1 == player2:
         player2 = random_player_selector(data)
 
     game_end = False
