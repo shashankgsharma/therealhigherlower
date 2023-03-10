@@ -1,8 +1,29 @@
-from os import system
 from time import sleep
 from random import choice
 from game_data import male_data, female_data
 from art import logo, vs
+from os import system
+import datetime
+
+
+def read_file(file_name):
+    with open(file_name) as file:
+        winner = file.readline()
+        winner = winner.split(', ')
+        winner_name = winner[0]
+        winner_score = winner[1]
+        date = winner[2]
+        time = winner[3]
+        return winner_name, winner_score, date, time
+
+
+def write_file(file_name, winner_name, winner_score, date, time):
+    with open(file_name, 'w') as file:
+        file.write(f"{winner_name}, {winner_score}, {date}, {time}")
+
+
+def greetme(player_name):
+    return f"Hi {player_name}, Welcome to the Higher-Lower Cricket Game.\n"
 
 
 def random_player_selector(data):
@@ -24,6 +45,10 @@ def compare(a, b):
 
 def play():
     print(logo)
+    player_name = input("Player name: ")
+    system('clear')
+    print(logo)
+    print(greetme(player_name))
     ans1 = input(
         "Type 'm' to play Men's Cricket Trivia, 'w' to play Women's Cricket Trivia: "
     ).lower()
@@ -44,7 +69,11 @@ def play():
     while not game_end:
         system('clear')
         print(logo + "\n")
-        print(f"Score: {score}.\n")
+        winner_name, winner_score, date, time = read_file('winner.txt')
+        print(
+            f"Highest score: {winner_name}: {winner_score} on {date} at {time}."
+        )
+        print(f"Your current score: {score}.\n")
         print(print_player(player1, gender))
         print(vs)
         print(print_player(player2, gender))
@@ -58,7 +87,7 @@ def play():
         print(
             f"\nInternational runs:\n{player1['name']}: {player1['international_runs']} runs.\n{player2['name']}: {player2['international_runs']} runs.\n"
         )
-        sleep(4)
+        sleep(3)
         if user_guess == result:
             score += 1
             player1 = player2
@@ -68,6 +97,14 @@ def play():
         else:
             game_end = True
     print(f"\nGame ended, final_score: {score}.\n")
+    if score > int(winner_score):
+        winner_name = player_name
+        winner_score = score
+        now = datetime.datetime.now()
+        date = now.date()
+        time = now.strftime("%H:%M:%S")
+        write_file('winner.txt', winner_name, winner_score, date, time)
+        print("Congratulations! This is a new high score!")
 
 
 while (input(
